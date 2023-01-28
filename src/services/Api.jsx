@@ -33,7 +33,7 @@ export const trendMovie = async () => {
 };
 
 export const movieById = async id => {
-  console.log(id);
+  // console.log(id);
 
   try {
     const data = await moviesRequest.get(`/movie/${id}?`, {
@@ -48,7 +48,7 @@ export const movieById = async id => {
 };
 
 export const castMovieById = async id => {
-  console.log(id);
+  // console.log(id);
 
   try {
     const data = await moviesRequest.get(`/movie/${id}/credits?`, {
@@ -62,7 +62,7 @@ export const castMovieById = async id => {
   }
 };
 export const reviewsMovieById = async id => {
-  console.log(id);
+  // console.log(id);
 
   try {
     const data = await moviesRequest.get(`/movie/${id}/reviews?&page=1`, {

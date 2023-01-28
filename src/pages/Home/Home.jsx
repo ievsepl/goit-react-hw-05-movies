@@ -1,17 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { MovieList } from 'components/MovieList/MovieList';
 
 export const Home = ({ trendMovies }) => {
-  return (
-    <ul>
-      {trendMovies.map(trendMovie => {
-        return (
-          <li key={trendMovie.id}>
-            <NavLink to={`Movies/${trendMovie.id}`}>
-              {trendMovie.name ?? trendMovie.title}
-            </NavLink>
-          </li>
-        );
-      })}
-    </ul>
-  );
+  return <MovieList askedMovies={trendMovies} />;
 };

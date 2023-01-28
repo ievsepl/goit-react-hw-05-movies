@@ -3,13 +3,15 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const MovieList = ({ askedMovies }) => {
   const location = useLocation();
+  console.log(location);
+
   return (
     <Box as="ul">
       {askedMovies.map(({ title, name, id }) => {
         // console.log(id);
         return (
           <li key={id}>
-            <Link to={`${id}`} state={{ from: location }}>
+            <Link to={`/Movies/${id}`} state={{ from: location }}>
               {name ?? title}
             </Link>
           </li>
@@ -18,3 +20,4 @@ export const MovieList = ({ askedMovies }) => {
     </Box>
   );
 };
+// {location.pathname === '/' ? `Movies/${id}` : `${id}`}

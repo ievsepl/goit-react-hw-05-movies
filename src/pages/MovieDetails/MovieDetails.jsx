@@ -12,7 +12,9 @@ export const MovieDetails = () => {
   const [genres, setGenres] = useState([]);
   const { movieId } = useParams();
   const location = useLocation();
-  // console.log(location);
+
+  // console.log(movieId);
+
   useEffect(() => {
     movieById(movieId).then(response => {
       const { data } = response;
@@ -22,11 +24,11 @@ export const MovieDetails = () => {
       // console.log(data.genres);
     });
   }, [movieId]);
-
+  const turnBack = location.state?.from ?? '/Movies';
   return (
     <Box>
       {/* <button type="button">Back</button> */}
-      <Link to={location.state.from}>Back</Link>
+      <Link to={turnBack}>Back</Link>
       {/* <br /> */}
       <Box display="flex" mt="20px">
         <img
@@ -49,8 +51,12 @@ export const MovieDetails = () => {
         </Box>
       </Box>
       <Box p="8px" mt="20px">
-        <Link to="Cast">Cast</Link>
-        <Link to="Reviews">Reviews</Link>
+        <Link to="Cast" state={location.state}>
+          Cast
+        </Link>
+        <Link to="Reviews" state={location.state}>
+          Reviews
+        </Link>
       </Box>
 
       <Outlet />
