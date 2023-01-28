@@ -1,11 +1,9 @@
-import Box from 'components/Box/Box';
 import { useEffect, useState } from 'react';
 import { Outlet, useParams, useLocation } from 'react-router-dom';
-import { movieById, BASE_POSTER_URL, POSTER_SIZE } from 'services/Api';
-import { Link } from './MovieDetails.styled';
 
-// import { Cast } from './pages/Cast/Cast';
-// import { Reviews } from './pages/Reviews/Reviews';
+import { Link } from './MovieDetails.styled';
+import Box from 'components/Box/Box';
+import { movieById, BASE_POSTER_URL, POSTER_SIZE } from 'services/Api';
 
 export const MovieDetails = () => {
   const [movieData, setMovieData] = useState([]);
@@ -13,21 +11,18 @@ export const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  // console.log(movieId);
-
   useEffect(() => {
     movieById(movieId).then(response => {
       const { data } = response;
-      // console.log(data);
       setMovieData(data);
       setGenres(data.genres);
-      // console.log(data.genres);
     });
   }, [movieId]);
+  // const navigate = useNavigate();
   const turnBack = location.state?.from ?? '/Movies';
   return (
     <Box>
-      {/* <button type="button">Back</button> */}
+      {/* <button onClick={() => navigate(turnBack)}>Go back</button> */}
       <Link to={turnBack}>Back</Link>
       {/* <br /> */}
       <Box display="flex" mt="20px">
@@ -63,16 +58,3 @@ export const MovieDetails = () => {
     </Box>
   );
 };
-// const location = useLocation();
-//   console.log(location.state); // { from: "/dashboard?name=hoodie" }
-
-//   return <Link to={location.state.from}>Back to products</Link>;
-// };
-//
-//
-//
-
-//  const backLinkHref = location.state?.from ?? "/products";
-
-//   return <Link to={backLinkHref}>Back to products</Link>;
-// };

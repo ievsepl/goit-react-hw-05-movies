@@ -1,18 +1,11 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-import Box from 'components/Box/Box';
-// import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-export const Searchbar = ({ onSubmitMovieQuery }) => {
-  // const [query, setQuery] = useState('');
-  const [searchParams, setSearchParams] = useSearchParams();
+import Box from 'components/Box/Box';
 
-  // const onInputQuery = e => {
-  //   setQuery(e.target.value.toLowerCase().trim());
-  //   // setSearchParams(query !== '' ? { filter: query, page: 1 } : {});
-  // };
+export const Searchbar = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const onSubmitSearchQuery = e => {
     e.preventDefault();
@@ -23,13 +16,8 @@ export const Searchbar = ({ onSubmitMovieQuery }) => {
     }
     setSearchParams(search !== '' ? { filter: search, page: 1 } : {});
     console.log(searchParams);
-    // onSubmitMovieQuery(query);
 
-    reset();
-  };
-
-  const reset = () => {
-    // setQuery('');
+    e.currentTarget.query.value = '';
   };
 
   return (

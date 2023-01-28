@@ -8,7 +8,6 @@ export const MovieList = ({ askedMovies }) => {
   return (
     <Box as="ul">
       {askedMovies.map(({ title, name, id }) => {
-        // console.log(id);
         return (
           <li key={id}>
             <Link to={`/Movies/${id}`} state={{ from: location }}>

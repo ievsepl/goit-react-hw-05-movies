@@ -7,32 +7,28 @@ import Box from 'components/Box/Box';
 import { MovieList } from 'components/MovieList/MovieList';
 import { Searchbar } from 'components/Seachbar/Searchbar';
 import { queryByName } from 'services/Api';
-// console.log(filter);
 // idle - простій
 // pending - очікується
 // resolved - успішно виконане
-// rejected - відхилено(помилка)]
+// rejected - відхилено(помилка)
+//
 export const Movies = () => {
   const [askedMovies, setAskedMovies] = useState([]);
-  // const [query, setQuery] = useState('');
+  // const [filter, setFilter] = useState();
   const [searchParams, setSearchParams] = useSearchParams();
   const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
   const filter = searchParams.get('filter');
-  // const filter = query;
-
-  // const onSubmitMovieQuery = query => {
-  //   setQuery(query);
-  // };
+  // setFilter(searchParams.get('filter'));
+  // const memoidedAskedMovies = useMemo(() => [a, b]);
 
   useEffect(() => {
+    // setFilter('');
     if (filter === '' || filter === null) {
       return;
     }
     setStatus('pending');
 
-    // cons ole.log(filter);
-    // console.log(page);
     queryByName(filter).then(response => {
       if (response.results.length === 0) {
         return toast.error('We have no movie by your query');
@@ -44,7 +40,7 @@ export const Movies = () => {
       // setAskedMovies(prev => {
       //   console.log(prev, response.results);
 
-      //   if (prev === []) {
+      //   if (prev === response.results) {
       //     return response.results;
       //   } else {
       //     return [...prev, ...response.results];
@@ -54,25 +50,6 @@ export const Movies = () => {
       console.log(response.results);
     });
   }, [filter]);
-
-  // const fetchAskedMovies = () => {
-  //   queryByName(filter, page).then(response => {
-  //     if (response.results.length === 0) {
-  //       return toast.error('We have no movie by your query');
-  //     }
-  //     setAskedMovies(prev => {
-  //       console.log(prev, response.results);
-
-  //       if (prev === response.results) {
-  //         return prev;
-  //       } else {
-  //         return [...prev, ...response.results];
-  //       }
-  //     });
-  //     console.log('second');
-  //     console.log(response.results);
-  //   });
-  // };
 
   const onLoadMore = () => {
     setPage(prev => prev + 1);
@@ -95,5 +72,3 @@ export const Movies = () => {
     </Box>
   );
 };
-// getAskedMovies={getAskedMovies};
-// onSubmitMovieQuery = { onSubmitMovieQuery }
