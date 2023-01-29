@@ -1,17 +1,19 @@
 import { Routes, Route } from 'react-router-dom';
-// import Box from './Box/Box';
+import { lazy, Suspense } from 'react';
 import { trendMovie } from 'services/Api';
 import { ToastContainer } from 'react-toastify';
 
-import { Home } from '../pages/Home/Home';
-import { Movies } from '../pages/Movies/Movies';
-import { MovieDetails } from '../pages/MovieDetails/MovieDetails';
-import { NotFound } from '../pages/NotFound/NotFound';
-import { Cast } from '../pages/Cast/Cast';
-import { Reviews } from '../pages/Reviews/Reviews';
 import { Container, Header, Link } from './App.styled';
 import { useEffect, useState } from 'react';
 // import { useState } from 'react';
+// import Box from './Box/Box';
+
+const Home = lazy(() => import('../pages/Home/Home'));
+const Movies = lazy(() => import('../pages/Movies/Movies'));
+const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'));
+const NotFound = lazy(() => import('../pages/NotFound/NotFound'));
+const Cast = lazy(() => import('../pages/Cast/Cast'));
+const Reviews = lazy(() => import('../pages/Reviews/Reviews'));
 
 export const App = () => {
   const [trendMovies, setTrendMovies] = useState([]);
@@ -26,21 +28,21 @@ export const App = () => {
 
   return (
     <Container>
-      <Header>
+      <Header as="ul">
         <Link to="">Home</Link>
         <Link to="Movies">Movies</Link>
       </Header>
-
-      <Routes>
-        <Route path="" element={<Home trendMovies={trendMovies} />} />
-        <Route path="Movies" element={<Movies />} />
-        <Route path="Movies/:movieId" element={<MovieDetails />}>
-          <Route path="Cast" element={<Cast />} />
-          <Route path="Reviews" element={<Reviews />} />
-        </Route>
-
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="" element={<Home trendMovies={trendMovies} />} />
+          <Route path="Movies" element={<Movies />} />
+          <Route path="Movies/:movieId" element={<MovieDetails />}>
+            <Route path="Cast" element={<Cast />} />
+            <Route path="Reviews" element={<Reviews />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       <ToastContainer autoClose={2000} />
     </Container>
   );

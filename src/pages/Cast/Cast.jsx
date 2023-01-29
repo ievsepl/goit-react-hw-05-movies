@@ -3,9 +3,14 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { castMovieById, BASE_POSTER_URL, CAST_SIZE } from 'services/Api';
+import {
+  castMovieById,
+  BASE_POSTER_URL,
+  CAST_SIZE,
+  NO_PHOTO,
+} from 'services/Api';
 
-export const Cast = () => {
+const Cast = () => {
   const [cast, setCast] = useState([]);
   const { movieId } = useParams();
   useEffect(() => {
@@ -19,10 +24,18 @@ export const Cast = () => {
           {cast.map(({ character, name, profile_path, id }) => {
             return (
               <Box key={id} display="flex" m="10px" as="li">
-                <img
+                {/* <img
                   src={BASE_POSTER_URL + CAST_SIZE + profile_path}
                   alt={name}
-                />
+                /> */}
+                {profile_path !== null ? (
+                  <img
+                    src={BASE_POSTER_URL + CAST_SIZE + profile_path}
+                    alt={name}
+                  />
+                ) : (
+                  <img src={NO_PHOTO} alt={name} width="45px" />
+                )}
                 <Box ml="5px">
                   <Box fontSize="15px" as="h2">
                     {name}
@@ -42,3 +55,4 @@ export const Cast = () => {
     </>
   );
 };
+export default Cast;

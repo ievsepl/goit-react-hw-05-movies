@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 
 import Box from 'components/Box/Box';
 
-export const Searchbar = () => {
+export const Searchbar = ({ inputValue }) => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const onSubmitSearchQuery = e => {
@@ -16,6 +16,7 @@ export const Searchbar = () => {
     }
     setSearchParams(search !== '' ? { filter: search, page: 1 } : {});
     console.log(searchParams);
+    inputValue(e.currentTarget.query.value);
 
     e.currentTarget.query.value = '';
   };

@@ -1,12 +1,11 @@
 import axios from 'axios';
-export const FAKE_ACTOR_PHOTO =
-  'https://cdn0.iconfinder.com/data/icons/people-12/24/Anonymous-2-512.png';
-export const FAKE_POSTER_URL =
-  'https://acmi-website-media-prod.s3.amazonaws.com/static/images/confused_travolta_original_acmi.original.jpg';
-export const NOT_FOUND_IMAGE =
-  'https://media.tenor.com/lndtLWwXZC0AAAAj/%D1%87%D1%82%D0%BE.gif';
-export const NOT_FOUND =
-  'https://ru.hostings.info/upload/images/2021/12/e11044b915dc39afc3004430606bd6d1.jpg';
+import noPoster from '../img/noPoster/noPoster.png';
+import noImage from '../img//noImage.jpg';
+import notFoundMovie from '../img//notFoundMovie.jpg';
+
+export const NO_PHOTO = noImage;
+export const NO_POSTER = noPoster;
+export const NOT_FOUND = notFoundMovie;
 
 const MY_KEY = '918bf745d942a4e02da57dd40b893231';
 const moviesRequest = axios.create({

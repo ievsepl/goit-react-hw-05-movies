@@ -3,13 +3,20 @@ import { Outlet, useParams, useLocation } from 'react-router-dom';
 
 import { Link } from './MovieDetails.styled';
 import Box from 'components/Box/Box';
-import { movieById, BASE_POSTER_URL, POSTER_SIZE } from 'services/Api';
+import {
+  movieById,
+  NO_POSTER,
+  BASE_POSTER_URL,
+  POSTER_SIZE,
+} from 'services/Api';
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [movieData, setMovieData] = useState([]);
   const [genres, setGenres] = useState([]);
   const { movieId } = useParams();
   const location = useLocation();
+
+  console.log(NO_POSTER);
 
   useEffect(() => {
     movieById(movieId).then(response => {
@@ -26,10 +33,14 @@ export const MovieDetails = () => {
       <Link to={turnBack}>Back</Link>
       {/* <br /> */}
       <Box display="flex" mt="20px">
-        <img
-          src={BASE_POSTER_URL + POSTER_SIZE + movieData.poster_path}
-          alt={movieData.title}
-        />
+        {movieData.poster_path !== null ? (
+          <img
+            src={BASE_POSTER_URL + POSTER_SIZE + movieData.poster_path}
+            alt={movieData.title}
+          />
+        ) : (
+          <img src={NO_POSTER} alt={movieData.title} width="300px" />
+        )}
         <Box p="20px">
           <h2>
             {movieData.title}({movieData.release_date})
@@ -58,3 +69,4 @@ export const MovieDetails = () => {
     </Box>
   );
 };
+export default MovieDetails;

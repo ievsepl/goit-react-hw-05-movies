@@ -1,6 +1,6 @@
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import Box from 'components/Box/Box';
@@ -12,24 +12,33 @@ import { queryByName } from 'services/Api';
 // resolved - успішно виконане
 // rejected - відхилено(помилка)
 //
-export const Movies = () => {
+ const Movies = () => {
   const [askedMovies, setAskedMovies] = useState([]);
-  // const [filter, setFilter] = useState();
+  const [searchValue, setSearchValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
   const [status, setStatus] = useState('idle');
-  const filter = searchParams.get('filter');
-  // setFilter(searchParams.get('filter'));
-  // const memoidedAskedMovies = useMemo(() => [a, b]);
-
+  // const filter = searchParams.get('filter');
+  const params = useMemo(
+    () => Object.fromEntries([...searchParams]),
+    [searchParams]
+  );
+  const { filter, page } = params;
+  console.log(searchValue);
+  const inputValue = searchValue => {
+    setSearchValue(searchValue);
+  };
   useEffect(() => {
     // setFilter('');
-    if (filter === '' || filter === null) {
+    if (filter === '' || filter === undefined) {
       return;
     }
+    // if (searchValue === '') {
+    //   return;
+    // }
     setStatus('pending');
 
-    queryByName(filter).then(response => {
+    queryByName(filter, page).then(response => {
       if (response.results.length === 0) {
         return toast.error('We have no movie by your query');
       } else if (response.results.length < 20) {
@@ -40,7 +49,7 @@ export const Movies = () => {
       // setAskedMovies(prev => {
       //   console.log(prev, response.results);
 
-      //   if (prev === response.results) {
+      //   if (searchValue === '') {
       //     return response.results;
       //   } else {
       //     return [...prev, ...response.results];
@@ -49,16 +58,16 @@ export const Movies = () => {
       setStatus('resolved');
       console.log(response.results);
     });
-  }, [filter]);
+  }, [filter, page, searchValue]);
 
   const onLoadMore = () => {
-    setPage(prev => prev + 1);
-    setSearchParams({ filter: filter, page: page + 1 });
+    // setPage(prev => prev + 1);
+    setSearchParams({ filter: filter, page: Number(page) + 1 });
   };
 
   return (
     <Box>
-      <Searchbar />
+      <Searchbar inputValue={inputValue} />
       {status === 'resolved' ? (
         <MovieList askedMovies={askedMovies} />
       ) : (
@@ -72,3 +81,4 @@ export const Movies = () => {
     </Box>
   );
 };
+export default Movies;
