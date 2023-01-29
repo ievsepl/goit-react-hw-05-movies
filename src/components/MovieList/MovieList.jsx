@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import Box from 'components/Box/Box';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -19,4 +21,12 @@ export const MovieList = ({ askedMovies }) => {
     </Box>
   );
 };
-// {location.pathname === '/' ? `Movies/${id}` : `${id}`}
+MovieList.propTypes = {
+  askedMovies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      name: PropTypes.string,
+    })
+  ),
+};

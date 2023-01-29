@@ -1,11 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { trendMovie } from 'services/Api';
 import { ToastContainer } from 'react-toastify';
 
 import { Container, Header, Link } from './App.styled';
-import { useEffect, useState } from 'react';
-// import { useState } from 'react';
 // import Box from './Box/Box';
 
 const Home = lazy(() => import('../pages/Home/Home'));
@@ -16,16 +13,6 @@ const Cast = lazy(() => import('../pages/Cast/Cast'));
 const Reviews = lazy(() => import('../pages/Reviews/Reviews'));
 
 export const App = () => {
-  const [trendMovies, setTrendMovies] = useState([]);
-  //
-  // ==========================Trend Movie for homepage==========================
-  //
-  useEffect(() => {
-    trendMovie().then(results => {
-      return setTrendMovies(results);
-    });
-  }, []);
-
   return (
     <Container>
       <Header as="ul">
@@ -34,7 +21,7 @@ export const App = () => {
       </Header>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="" element={<Home trendMovies={trendMovies} />} />
+          <Route path="" element={<Home />} />
           <Route path="Movies" element={<Movies />} />
           <Route path="Movies/:movieId" element={<MovieDetails />}>
             <Route path="Cast" element={<Cast />} />

@@ -12,7 +12,7 @@ import { queryByName } from 'services/Api';
 // resolved - успішно виконане
 // rejected - відхилено(помилка)
 //
- const Movies = () => {
+const Movies = () => {
   const [askedMovies, setAskedMovies] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
