@@ -7,12 +7,14 @@ import Box from 'components/Box/Box';
 import { MovieList } from 'components/MovieList/MovieList';
 import { Searchbar } from 'components/Seachbar/Searchbar';
 import { queryByName } from 'services/Api';
+import { useRef } from 'react';
 // idle - простій
 // pending - очікується
 // resolved - успішно виконане
 // rejected - відхилено(помилка)
 //
 const Movies = () => {
+  const initFetch = useRef(true);
   const [askedMovies, setAskedMovies] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -24,41 +26,43 @@ const Movies = () => {
     [searchParams]
   );
   const { filter, page } = params;
-  console.log(searchValue);
-  const inputValue = searchValue => {
-    setSearchValue(searchValue);
+  // console.log(searchValue);
+  const inputValue = searchBarValue => {
+    setSearchValue(searchBarValue);
   };
+
+  if (searchValue !== '') {
+    setAskedMovies([]);
+    setSearchValue('');
+  }
+
   useEffect(() => {
-    // setFilter('');
+    // setAskedMovies([]);
     if (filter === '' || filter === undefined) {
       return;
     }
-    // if (searchValue === '') {
-    //   return;
-    // }
-    setStatus('pending');
 
+    setStatus('pending');
     queryByName(filter, page).then(response => {
+      setAskedMovies(prev => {
+        return [...prev, ...response.results];
+      });
+
+      setStatus('resolved');
+
       if (response.results.length === 0) {
         return toast.error('We have no movie by your query');
       } else if (response.results.length < 20) {
         toast.warn('There are no more images to load!');
         setStatus('idle');
       }
-      setAskedMovies(response.results);
-      // setAskedMovies(prev => {
-      //   console.log(prev, response.results);
+      // setAskedMovies(response.results);
 
-      //   if (searchValue === '') {
-      //     return response.results;
-      //   } else {
-      //     return [...prev, ...response.results];
-      //   }
-      // });
       setStatus('resolved');
+      initFetch.current = false;
       console.log(response.results);
     });
-  }, [filter, page, searchValue]);
+  }, [filter, page]);
 
   const onLoadMore = () => {
     // setPage(prev => prev + 1);
