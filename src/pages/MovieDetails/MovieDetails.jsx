@@ -16,8 +16,6 @@ const MovieDetails = () => {
   const { movieId } = useParams();
   const location = useLocation();
 
-  console.log(NO_POSTER);
-
   useEffect(() => {
     movieById(movieId).then(response => {
       const { data } = response;

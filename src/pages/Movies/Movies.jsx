@@ -7,14 +7,14 @@ import Box from 'components/Box/Box';
 import { MovieList } from 'components/MovieList/MovieList';
 import { Searchbar } from 'components/Seachbar/Searchbar';
 import { queryByName } from 'services/Api';
-import { useRef } from 'react';
+// import { useRef } from 'react';
 // idle - простій
 // pending - очікується
 // resolved - успішно виконане
 // rejected - відхилено(помилка)
 //
 const Movies = () => {
-  const initFetch = useRef(true);
+  // const initFetch = useRef(true);
   const [askedMovies, setAskedMovies] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
@@ -48,8 +48,6 @@ const Movies = () => {
         return [...prev, ...response.results];
       });
 
-      setStatus('resolved');
-
       if (response.results.length === 0) {
         return toast.error('We have no movie by your query');
       } else if (response.results.length < 20) {
@@ -59,8 +57,7 @@ const Movies = () => {
       // setAskedMovies(response.results);
 
       setStatus('resolved');
-      initFetch.current = false;
-      console.log(response.results);
+      // initFetch.current = false;
     });
   }, [filter, page]);
 
@@ -72,11 +69,7 @@ const Movies = () => {
   return (
     <Box>
       <Searchbar inputValue={inputValue} />
-      {status === 'resolved' ? (
-        <MovieList askedMovies={askedMovies} />
-      ) : (
-        <p>Write your query</p>
-      )}
+      {<MovieList askedMovies={askedMovies} />}
       {status === 'resolved' && (
         <button type="button" onClick={onLoadMore}>
           Load more
@@ -86,3 +79,4 @@ const Movies = () => {
   );
 };
 export default Movies;
+// ?? <p>Write your query</p>

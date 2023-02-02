@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 
 export const MovieList = ({ askedMovies }) => {
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
 
   return (
     <Box as="ul">
